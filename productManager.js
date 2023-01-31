@@ -35,12 +35,12 @@ class ProductManager{
       }
 
     getProducts(){
-        return console.log(this.products) 
+        console.log(this.products)
     }
     getPorductById(id) {
         const productFind = this.products.find((product) => id === product.id);
         if (productFind) {
-          return console.log(productFind);
+          console.log(productFind);
         } else {
           console.log("Not Found");
         }
