@@ -27,11 +27,6 @@ app.get('/product', async (req, res) => {
 })
 
 //Consultar productos por ID
-/* app.get('/product/:id', async (req,res) => {
-    const product = await ruta.getProductById(parseInt(req.params.id));
-    product === null ? res.send("El producto no existe") : res.send(`El producto con ID ${product.id} es el siguiente: ${(JSON.stringify(product))}`);
-}) */
-
 app.get('/product/:id', async (req,res) => {
     try {
         const product = await ruta.getProductById(parseInt(req.params.id));
