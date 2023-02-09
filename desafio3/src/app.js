@@ -28,15 +28,15 @@ app.get('/product', async (req, res) => {
 
 //Consultar productos por ID
 app.get('/product/:id', async (req,res) => {
-    try {
-        const product = await ruta.getProductById(parseInt(req.params.id));
-        console.log(product)
-        res.send(`El producto con ID ${product.id} es el siguiente: ${(JSON.stringify(product))}`);
-    }
-    catch {
-        res.send("El producto no existe") 
-    }    
+    const product = await ruta.getProductById(parseInt(req.params.id));
+    product === null ? res.send("No se encontro el producto") : res.send(product)    
 })
+
+// app.get('/products/:id', async (req, res) => {
+//    const product = await myProductManager.getProductById(parseInt(req.params.id));
+//    product === null ? res.send("No se encontro el producto") : res.send(product)
+   
+// })
 
 app.listen(PORT, () => {
     console.log(`Server on port ${PORT}`)

@@ -56,7 +56,7 @@ class ProductManager{
         const prodArray = JSON.parse(read)
         return prodArray
     }
-    getPorductById = async (id) => {
+    getProductById = async (id) => {
         const read = await fs.readFile(this.path, 'utf-8');
         const prodArray = JSON.parse(read);
         const productFind = prodArray.find((product) => product.id === id);
