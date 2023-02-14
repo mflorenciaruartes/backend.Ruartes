@@ -5,7 +5,6 @@ const ruta = "../models/productos.json";
 //Creamos la clase para crear los productos
 class Productos{
     constructor(title, description, price, thumbnail, code, stock, category, status){
-        this.id = Productos.addId()
         this.title = title
         this.description = description
         this.price = price
@@ -16,14 +15,6 @@ class Productos{
         this.status = status
     }
 
-    static addId(){
-      if (this.idIncrement) {
-          this.idIncrement++
-      } else {
-          this.idIncrement = 1
-      }
-      return this.idIncrement
-  }
 }
 
 //Creamos los productos
@@ -40,13 +31,12 @@ const sandwichera = new Productos ("Minipimer Liliana", "procesar alimentos", 13
 
 //Creamos la clase ProductManager para manejar los productos disponibles (agregar productos, ver productos disponibles, obtener un 
 //producto por ID, modificar o eliminar un producto.
-class ProductManager{
+export class ProductManager{
     constructor(path){
         this.path = path;
     }
     addProduct = async (newProduct) => {
-        const read = await fs.readFile(this.path, 'utf-8');
-        const prodArray = JSON.parse(read);
+        const prodArray = JSON.parse(await fs.readFile(this.path, 'utf-8'));
         const prodCode = prodArray.map((product) => product.code);
         const codeExist = prodCode.includes(newProduct.code);
         if (codeExist) {
@@ -56,9 +46,9 @@ class ProductManager{
             "No se pudo agregar el producto ya que no se completaron todos los campos obligatorios"
           );
         } else {
-          // let id;
-          // prodArray.length === 0 ? (id = 1) : (id = prodArray.length + 1);
-          const newObject = { id: Productos.addId(), ...newProduct };
+          let id;
+          prodArray.length === 0 ? (id = 1) : (id = prodArray.length + 1);
+          const newObject = {id, ...newProduct };
           prodArray.push(newObject);
           await fs.writeFile(this.path, JSON.stringify(prodArray), 'utf-8')
         }
@@ -70,9 +60,8 @@ class ProductManager{
         return prodArray
     }
     getProductById = async (id) => {
-        const read = await fs.readFile(this.path, 'utf-8');
-        const prodArray = JSON.parse(read);
-        const productFind = prodArray.find((product) => product.id === id);
+        const prodArray = JSON.parse(await fs.readFile(this.path, 'utf-8'));
+        const productFind = prodArray.find((product) => product.id === parseInt(id));
         if (productFind) {
           console.log(productFind);
           return productFind;
@@ -83,7 +72,7 @@ class ProductManager{
 
     updateProduct = async (id, {title, description, price, thumbnail, code, stock, category, status}) => {
       const prodArray = JSON.parse(await fs.readFile(this.path, "utf-8"));
-      const index = prodArray.findIndex((product) => product.id === id);
+      const index = prodArray.findIndex((product) => product.id === parseInt(id));
       if(!prodArray[index]){
           console.log("Producto no encontrado.")
       } else {
@@ -103,8 +92,8 @@ class ProductManager{
 
     deleteProduct = async (id) => {
         const prodArray = JSON.parse(await fs.readFile(this.path, "utf-8"));
-        const productoEliminado = JSON.stringify(prodArray.find((product) => product.id === id));
-        const newArray = prodArray.filter((product) => product.id !== id);
+        const productoEliminado = JSON.stringify(prodArray.find((product) => product.id === parseInt(id)));
+        const newArray = prodArray.filter((product) => product.id !== parseInt(id));
         await fs.writeFile(this.path, JSON.stringify(newArray), "utf-8");
         console.log(`Producto Eliminado:`);
         console.log(JSON.parse(productoEliminado))
@@ -156,4 +145,3 @@ class ProductManager{
 
 // test('./productos.json')
 
-export default ProductManager;

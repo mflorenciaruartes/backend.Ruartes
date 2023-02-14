@@ -1,5 +1,6 @@
 import express from 'express'
 import routerProduct from './routes/productos.routes.js';
+import routerCart from "./routes/cart.routes.js";
 import { __dirname } from "./path.js";
 import multer from 'multer';
 
@@ -25,8 +26,7 @@ app.use(express.json()) //Permite manejar archivos JSON
 //Routes
 app.use('/static', express.static(__dirname + '/public'))
 app.use('/api/products', routerProduct)
-
-
+app.use('/api/carts', routerCart)
 app.post('/upload',upload.single('product'), (req,res) => {
     console.log(req.file)
     res.send("Imagen subida")
