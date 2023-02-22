@@ -13,7 +13,7 @@ export class CartManager {
     }
 
     checkJson = () => {
-        !existsSync(this.path) && fs.writeFile(this.path, "[]", 'utf-8'); //Creamos archivo JSON.
+        !existsSync(this.path) && fs.writeFile(this.path, "[]", 'utf-8'); 
     }
 
     addCart = async () => {
@@ -58,23 +58,16 @@ export class CartManager {
     addProductToCart = async (idCart, idProduct, prodQty) => {
         this.checkJson()
         const carts = JSON.parse(await fs.readFile(this.path, 'utf-8'))
-        //Chequeamos que el carrito existe con ese id.
         if(carts.some(cart => cart.id === parseInt(idCart))) {
-            //Obtenemos el índice del array de carritos
             const cartIndex = carts.findIndex(cart => cart.id === parseInt(idCart))
-            //Obtenemos el índice del prdoucto dentro del carrito
             const objetoCarrito = new Cart(idCart, carts[cartIndex].products)
             const prodIndex = objetoCarrito.products.findIndex(obj => obj.product === parseInt(idProduct))
             if(prodIndex === -1) {
-                //Si no existe pusheamos el producto al array de productos dentro del carrito
                 objetoCarrito.products.push({product: idProduct, quantity: prodQty})
-                //Actualizamos el carrito en el array de carritos
                 carts[cartIndex] = objetoCarrito;
             } else {
-                //Si existe aumentamos la cantidad en 1
                 carts[cartIndex].products[prodIndex].quantity += prodQty;
             } 
-            //Escribimos el Json del carrito con el producto nuevo
             await fs.writeFile(this.path, JSON.stringify(carts), 'utf-8')
             return "Producto agregado exitosamente"
         } else {
@@ -94,26 +87,3 @@ export class CartManager {
     }
 
 }
-
-// //Creamos el objeto que manejará nuestra carga de carritos
-// const manager = new CartManager("../models/carts.json");
-
-// //Comprobamos funcionamiento de metodos
-// const test = async() => {
-//     //Creamos archivo JSON.
-//     await manager.checkJson(); 
-//     // Cargamos los productos.
-//     await manager.addCart();
-//     await manager.addCart();
-//     await manager.addCart();
-//     await manager.addCart();
-//     // Listamos nuevamente el array de carts para ver los cargados.
-//     await manager.getCarts(); 
-//     //Agregamos un nuevo producto
-//     await manager.addProductToCart(1, 1, 2);
-//     await manager.addProductToCart(2, 3, 4);
-//     await manager.addProductToCart(3, 5, 2);
-//     console.log(await manager.getCarts())
-// }
-
-// test()

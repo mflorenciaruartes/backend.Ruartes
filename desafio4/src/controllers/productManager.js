@@ -24,12 +24,7 @@ const cafetera = new Productos ("Cafetera Philips", "Preparar infusión", 3250, 
 const tostadora = new Productos ("Tostadora Oster", "Calentar pan", 1150, ["public/img/tostadora.jpg"], 2504, 23, "Electro", true)
 const minipimer = new Productos ("Minipimer Liliana", "procesar alimentos", 1350, ["public/img/procesadora.jpg"], 2505, 10, "Electro", true)
 const sandwichera = new Productos ("Minipimer Liliana", "procesar alimentos", 1350, ["public/img/tostadora2.jpg"], 2506, 15, "Electro", true)
-// const juguera = new Productos ("Juguera Philips", "Procesar alimentos", 1850, [], 2507, 40,"Electro", true )
-// const multiprocesador = new Productos ("multiprocesador Liliana", "procesar alimentos", 1490, [], 2508, 50, "Electro", true)
-// const pava = new Productos ("Pava Moulinex", "Calentar alimentos", 1150, [], 2509, 40, "Electro", true)
-// const batidoraL = new Productos ("batidoraL Liliana", "Procesar alimentos", 1780, [], 2510, 30, "Electro", true)
 
-//Creamos la clase ProductManager para manejar los productos disponibles (agregar productos, ver productos disponibles, obtener un 
 //producto por ID, modificar o eliminar un producto.
 export class ProductManager{
     constructor(path){
@@ -100,12 +95,10 @@ export class ProductManager{
     }
 
     async createJson() {
-      //Creamos archivo JSON.
       await fs.writeFile(this.path, "[]");
     }
 
     async createProducts() {
-      // Agregamos los productos.
       await this.addProduct(licuadora);
       await this.addProduct(batidora);
       await this.addProduct(tostadora);
@@ -116,32 +109,4 @@ export class ProductManager{
 
 }
 
-// // //Creamos el objeto que manejará nuestra carga de productos
-// const cargaUno = new ProductManager(ruta);
-
-// // //Comprobamos funcionamiento de metodos
-// const test = async() => {
-//     //Creamos archivo JSON.
-//     await fs.writeFile(ruta, "[]");
-//     // Mostramos array de productos vacío.
-//     await cargaUno.getProducts(); 
-//     // Cargamos los productos.
-//     await cargaUno.addProduct(licuadora);
-//     await cargaUno.addProduct(batidora);
-//     await cargaUno.addProduct(tostadora);
-//     await cargaUno.addProduct(minipimer);
-//     // Listamos nuevamente el array de productos para ver los cargados.
-//     await cargaUno.getProducts(); 
-//     //Agregamos un nuevo producto
-//     await cargaUno.addProduct(cafetera);
-//     await cargaUno.addProduct(sandwichera);
-//     // await cargaUno.addProduct(juguera);
-//     // await cargaUno.addProduct(multiprocesador);
-//     // await cargaUno.addProduct(pava);
-//     // await cargaUno.addProduct(batidoraL);
-//     // Buscamos dos productos por ID, uno existe el otro no.
-
-// }
-
-// test('./productos.json')
 

@@ -28,6 +28,7 @@ button {
     border-style: solid;
     border-radius: 3px;
     text-align: center;
+    align-items: center;
 }
 
 .imgCardProducts{
